@@ -100,7 +100,10 @@ export class GraphQLRequestVisitor extends ClientSideBaseVisitor<
           o.node.variableDefinitions.length === 0 ||
           o.node.variableDefinitions.every(v => v.type.kind !== Kind.NON_NULL_TYPE || v.defaultValue);
         const docVarName = this.getDocumentNodeVariable(o.documentVariableName);
-        const doc = this.config.documentMode === DocumentMode.string ? docVarName : `print(${docVarName})`;
+        
+        // FIXME: Bad bad monkey patch!
+        // const doc = this.config.documentMode === DocumentMode.string ? docVarName : `print(${docVarName})`;
+        const doc = docVarName;
 
         if (this.config.rawRequest) {
           return `${operationName}(variables${optionalVariables ? '?' : ''}: ${
